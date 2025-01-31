@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>余命表示</title>
+</head>
+<body>
+    <h1>余命</h1>
+    <div class="container"></div>
+</body>
+<script>
+    const container = document.querySelector('.container');
+    let data = {
+        birthyear: null,
+        birthmonth: null,
+        birthday: null,
+        sex: null
+    };
+    function checksetting(data){
+        if (data.birthyear == null || data.birthmonth == null || data.birthday == null) {
+            container.innerHTML = '<input type="number" id="birthyear" placeholder="生年">年<input type="number" id="birthmonth" placeholder="生月">月<input type="number" id="birthday" placeholder="生日">日';
+            container.innerHTML += '<input type="radio" name=sex value="男性">男性<input type="radio" name=sex value="女性">女性';
+            container.innerHTML += '<button onclick="setbirth()">設定</button>';
+        }else{
+            show(data);
+        }
+    }
+    function setbirth(){
+        data.birthyear = document.getElementById('birthyear').value;
+        data.birthmonth = document.getElementById('birthmonth').value;
+        data.birthday = document.getElementById('birthday').value;
+        data.sex = document.querySelector('input[name=sex]:checked').value;
+        checksetting(data);
+    }
+    function calclifeexpectancy(data){
+        let birthyear = data.birthyear;
+        let birthmonth = data.birthmonth;
+        let birthday = data.birthday;
+        let sex = data.sex;
+        let now = new Date();
+        let nowyear = now.getFullYear();
+        let nowmonth = now.getMonth() + 1;
+        let nowday = now.getDate();
+        let lifeexpectancy;
+        if (sex === "女性"){
+            lifeexpectancy = 87;
+        }else{
+            lifeexpectancy = 81;
+        }
+        let lifespanyear = nowyear - birthyear;
+        let lifespanmonth = nowmonth - birthmonth;
+        let lifespanday = nowday - birthday;
+        let lifespanhour = now.getHours();
+        let lifespanminute = now.getMinutes();
+        let lifespansecond = now.getSeconds();
+        if (lifespanmonth < 0){
+            lifespanyear -= 1;
+            lifespanmonth += 12;
+        }
+        if (lifespanday < 0){
+            lifespanmonth -= 1;
+            lifespanday += 30;
+        }
+        if (lifespanhour < 0){
+            lifespanday -= 1;
+            lifespanhour += 24;
+        }
+        if (lifespanminute < 0){
+            lifespanhour -= 1;
+            lifespanminute += 60;
+        }
+        if (lifespansecond < 0){
+            lifespanminute -= 1;
+            lifespansecond += 60;
+        }
+        let liferemainyear = lifeexpectancy - lifespanyear;
+        let liferemainmonth = 12 - lifespanmonth;
+        let liferemainday = 30 - lifespanday;
+        let liferemainhour = 24 - lifespanhour;
+        let liferemainminute = 60 - lifespanminute;
+        let liferemainsecond = 60 - lifespansecond;
+        let liferemain = liferemainyear + '年' + liferemainmonth + 'ヶ月' + liferemainday + '日' + liferemainhour + '時間' + liferemainminute + '分' + liferemainsecond + '秒';
+        return liferemain;
+    }
+    function show(data){
+        let liferemain = calclifeexpectancy(data);
+        container.innerHTML = liferemain;
+        setTimeout(function(){
+            show(data);
+        }, 100);
+    }
+    checksetting(data);
+</script>
+
+</html>
