@@ -53,32 +53,32 @@
         let lifespanhour = now.getHours();
         let lifespanminute = now.getMinutes();
         let lifespansecond = now.getSeconds();
-        if (lifespanmonth < 0){
-            lifespanyear -= 1;
-            lifespanmonth += 12;
-        }
-        if (lifespanday < 0){
-            lifespanmonth -= 1;
-            lifespanday += 30;
-        }
-        if (lifespanhour < 0){
-            lifespanday -= 1;
-            lifespanhour += 24;
+        if (lifespansecond < 0){
+            lifespanminute -= 1;
+            lifespansecond += 60;
         }
         if (lifespanminute < 0){
             lifespanhour -= 1;
             lifespanminute += 60;
         }
-        if (lifespansecond < 0){
-            lifespanminute -= 1;
-            lifespansecond += 60;
+        if (lifespanhour < 0){
+            lifespanday -= 1;
+            lifespanhour += 24;
+        }
+        if (lifespanday < 0){
+            lifespanmonth -= 1;
+            lifespanday += 30;
+        }
+        if (lifespanmonth < 0){
+            lifespanyear -= 1;
+            lifespanmonth += 12;
         }
         let liferemainyear = lifeexpectancy - lifespanyear;
         let liferemainmonth = 12 - lifespanmonth;
         let liferemainday = 30 - lifespanday;
-        let liferemainhour = 24 - lifespanhour;
-        let liferemainminute = 60 - lifespanminute;
-        let liferemainsecond = 60 - lifespansecond;
+        let liferemainhour = 23 - lifespanhour;
+        let liferemainminute = 59 - lifespanminute;
+        let liferemainsecond = 59 - lifespansecond;
         let liferemain = liferemainyear + '年' + liferemainmonth + 'ヶ月' + liferemainday + '日' + liferemainhour + '時間' + liferemainminute + '分' + liferemainsecond + '秒';
         return liferemain;
     }
